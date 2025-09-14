@@ -10,6 +10,7 @@ local ReaderHighlight = require("apps/reader/modules/readerhighlight")
 local RadioButtonWidget = require("ui/widget/radiobuttonwidget")
 local T = require("ffi/util").template
 
+--filter by edited text
 function ReaderBookmark:filterByEditedText()
     local item_table = {}
     for i, v in ipairs(self.ui.annotation.annotations) do
@@ -28,6 +29,7 @@ function ReaderBookmark:filterByEditedText()
     self:updateBookmarkList(item_table)
 end
 
+--filter by highlight style
 function ReaderBookmark:filterByHighlightStyle()
     local filter_by_drawer_callback = function(drawer)
         local item_table = {}
@@ -49,18 +51,19 @@ function ReaderBookmark:filterByHighlightStyle()
     self.ui.highlight:showHighlightStyleDialog(filter_by_drawer_callback)
 end
 
+--filter by highlight color
 function ReaderBookmark:filterByHighlightColor()
     local filter_callback = function(color)
         local item_table = {}
 
-        -- iterate over all annotations, not just the current visible table
+        --iterate over all annotations, not just the current visible table
         for i, v in ipairs(self.ui.annotation.annotations) do
             local item = util.tableDeepCopy(v)
             item.text_orig = item.text or ""
             item.type = self.getBookmarkType(item)
 
-            if item.color == color then
-            -- if item.type == "highlight" and item.color == color then
+            if item.color == color then                                         --edited this to include notes with color
+            -- if item.type == "highlight" and item.color == color then         --original (uncomment this to only show highlights of that color)
                 item.text = self:getBookmarkItemText(item)
                 table.insert(item_table, item)
             end
@@ -74,6 +77,7 @@ function ReaderBookmark:filterByHighlightColor()
     self.ui.highlight:showHighlightColorFilterDialog(filter_callback)
 end
 
+--filter by both highlight style and color
 function ReaderBookmark:filterByColorAndStyle(drawer, color)
     local item_table = {}
 
@@ -82,7 +86,7 @@ function ReaderBookmark:filterByColorAndStyle(drawer, color)
         item.text_orig = item.text or ""
         item.type = self.getBookmarkType(item)
 
-        -- Only include highlights that match both filters (if set)
+        --only include highlights that match both filters (if set)
         if item.type == "highlight" and
            (not drawer or item.drawer == drawer) and
            (not color or item.color == color) then
@@ -91,22 +95,23 @@ function ReaderBookmark:filterByColorAndStyle(drawer, color)
         end
     end
 
-    -- store current active filters
+    --store current active filters
     self.show_drawer_only = drawer
     self.show_color_only = color
-    self.show_edited_only = nil  -- if you want edited text separate, can add later
+    self.show_edited_only = nil 
 
     self:updateBookmarkList(item_table)
 end
 
+--show dialog to select highlight color for filtering
 function ReaderHighlight:showHighlightColorFilterDialog(caller_callback)
     local radio_buttons = {}
     for _, v in ipairs(self.ui.highlight.highlight_colors) do
         table.insert(radio_buttons, {
             {
-                text = v[1],  -- name of the color, e.g., "Yellow"
-                bgcolor = BlitBuffer.colorFromName(v[2])  -- convert color name to display color
-                       or BlitBuffer.Color8(0xFF, 0xFF, 0xFF), -- fallback to white
+                text = v[1],  
+                bgcolor = BlitBuffer.colorFromName(v[2]) 
+                       or BlitBuffer.Color8({0xFF, 0xFF, 0xFF, 0xFF}), --fallback to white if color not found
                 provider = v[2], 
             },
         })
@@ -124,7 +129,7 @@ function ReaderHighlight:showHighlightColorFilterDialog(caller_callback)
     })
 end
 
-
+--get highlight color name
 function ReaderHighlight:getHighlightColorString(color) -- for bookmark list
     local highlight_colors = self.ui.highlight and self.ui.highlight.highlight_colors or {}
     for _, v in ipairs(highlight_colors) do
@@ -135,6 +140,7 @@ function ReaderHighlight:getHighlightColorString(color) -- for bookmark list
     return color
 end
 
+--update bookmark list with current filters
 function ReaderBookmark:updateBookmarkList(item_table, item_number)
     local bm_menu = self.bookmark_menu[1]
 
