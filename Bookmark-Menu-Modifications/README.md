@@ -2,9 +2,10 @@
 A KOReader patch that adds the option to filter by highlight colors, or to filter by both highlight colors and highlight style at the same time. 
 
 <div align="center"> 
-    <img src="example.png" alt = "Front Page Image" width="40%" />
+    <img src="example1.png" alt = "Front Page Image" width="30%" />
+    <img src="example2.png" alt = "Front Page Image" width="30%" />
+    <img src="example3.png" alt = "Front Page Image" width="30%" />
 </div>
-<center>(This example is taken from my KOReader emulator.)</center>
 
 ## 🤖 Technologies
 - `Lua`
