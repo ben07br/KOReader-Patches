@@ -25,14 +25,17 @@ I changed the filtering logic too because previously if you filter by ***Underli
 Start with downloading the patch `2-bookmark-highlight-modifications.lua`
 
 ### 2. Add the patch
-Add the patch to your existing patch folder.
+Add the patch to your existing patch folder. 
 
 ### 3. Edit OR Add the `readerbookmark.lua`
-Simply replace you current `readerbookmark.lua` with the one from this folder.
+Simply replace you current `readerbookmark.lua` with the one from this folder. This can be found in `koreader/frontend/apps/reader/modules`.  
 
 **HOWEVER**
 
 If you are tech savy, you can edit your current `readerbookmark.lua` (I would advise this if you have already made changes to it, as downloading my uploaded copy will most likely revert the changes you have made in the past. **Trust me its very easy! I'll guide you through it**.)
+
+**Disclaimer:**
+*Please note that whether you replace the the existing file with the the provided one or you decide to edit the existing file in your folder, it is always safer/smarter to make a copy because we are changing the source code. Please also understand that because the source code is being changed, when we update KOReader, it'll revert this file to whatever is on the updated version. I will try to make it so everything is in the patch.*
 
 ## Editting `readerbookmark.lua` (optional)
 ### 1. Control-f to find:
