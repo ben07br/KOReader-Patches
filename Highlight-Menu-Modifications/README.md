@@ -1,7 +1,9 @@
 # Highlight Menu Modifications
 Made some simple edits to [VeeBui's](https://github.com/VeeBui/koReader-highlight-menu-patch) popular, `2-highlight-menu-modifications.lua`. The changes include more buttons, `.png` icons for each button, and fixed some button logic.
 
-
+<div align="center"> 
+    <img src="images/intro-pic.jpg" alt = "Front Page Image" width="30%" />
+</div>
 
 ## Technologies
 - `Lua`
