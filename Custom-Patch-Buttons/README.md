@@ -1,11 +1,12 @@
 # Folder For Custom Patch Buttons
-A KOReader patch (mostly for fellow developers or those who understand how to edit code) that stores all custom buttons into a folder for gestures to use. This patch extends the existing gesture menu to have a "Custom Patches" folder. Essentially a shared integration point for other user patches. 
+A KOReader patch (mostly for fellow developers or those who understand how to edit code) that stores all custom buttons into a folder for gestures to use. This patch extends the existing gesture menu to have a "Custom Patches" folder. Essentially a shared integration point for other user patches.
 
 <div align="center"> 
     <img src="images/example1.png" alt = "Front Page Image" width="30%" />
     <img src="images/example2.png" alt = "Front Page Image" width="30%" />
+    <img src="images/example3.png" alt = "Front Page Image" width="30%" />
 </div>
-<p style="text-align: center; font-style: italic;"> Left image shows the folder created by this patch, labeled "Custom Patches", the right image shows whats inside. Right images showcases the patch working with a lockpin plugin created by another user and with the bookmark filter patch I created. </p>
+<p style="text-align: center; font-style: italic;"> Left image shows the folder created by this patch, labeled "Custom Patches". The middle image shows whats inside. Middle image showcases the patch working with a lockpin plugin created by another user and with the bookmark filter patch I created. Right image shows inclusion into quickmenu.</p>
 
 ## 🤖 Technologies
 - `Lua`
@@ -25,7 +26,9 @@ So I decided to create a new section "Custom Patches" that can not only store th
 
 ## 🚀 How to use?
 ### 1. Download the patch
-Simply download the patch `2-gesture-patches-folder.lua`
+Simply download the patch `2-aaa-gesture-patches-folder.lua`. 
+
+NOTE: Please keep the naming convention as it allows the patch to run first before others to prevent any issues that might arise from a different patch running first.
 
 ### 2. Add the patch
 Add the patch to your existing patch folder. 
