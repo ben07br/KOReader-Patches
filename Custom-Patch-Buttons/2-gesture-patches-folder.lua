@@ -59,7 +59,6 @@ function Dispatcher:addSubMenu(caller, menu, location, settings)
                 return location[settings] and location[settings][btn.id]
             end,
             callback = function(touchmenu_instance)
-                -- toggle the button for this gesture
                 local value = not (location[settings] and location[settings][btn.id])
                 if not location[settings] then location[settings] = {} end
                 location[settings][btn.id] = value and true or nil
@@ -68,8 +67,14 @@ function Dispatcher:addSubMenu(caller, menu, location, settings)
                     touchmenu_instance:updateItems()
                 end
 
-                -- execute actual registered callback
-                if btn.callback then
+                -- actually update Dispatcher binding too
+                local Dispatcher = require("dispatcher")
+                if Dispatcher and Dispatcher.setActionEnabled then
+                    Dispatcher:setActionEnabled(btn.id, value)
+                end
+
+                -- run registered behavior if enabling
+                if value and btn.callback then
                     btn.callback()
                 end
             end,
