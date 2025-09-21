@@ -218,8 +218,6 @@ end
 
 UIManager:scheduleIn(0.1, function()
     local Dispatcher = require("dispatcher")
-    if not Dispatcher.registerAction then return end
-
     local useCustomFolder = _G.registerCustomPatchButton ~= nil
 
     Dispatcher:registerAction("filter_bookmark_color", {
