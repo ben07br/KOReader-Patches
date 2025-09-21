@@ -40,8 +40,9 @@ function Dispatcher:addSubMenu(caller, menu, location, settings)
 
     --custom patches folder
     local custom_patch_item = {
-        text = _("Custom Patches"), --can rename if wanted
+        text = _("Custom Patches"),
         checked_func = function()
+            -- return true if any custom button is selected in this section
             local loc = location[settings]
             for _, btn in ipairs(_G._customPatchButtons) do
                 if loc and loc[btn.id] then return true end
@@ -59,26 +60,27 @@ function Dispatcher:addSubMenu(caller, menu, location, settings)
                 return location[settings] and location[settings][btn.id]
             end,
             callback = function(touchmenu_instance)
-                local value = not (location[settings] and location[settings][btn.id])
                 if not location[settings] then location[settings] = {} end
+                local value = not location[settings][btn.id]
                 location[settings][btn.id] = value and true or nil
 
+                if value then
+                    Dispatcher._addToOrder(location, settings, btn.id)       --adds to order
+                else
+                    Dispatcher._removeFromOrder(location, settings, btn.id)  -- removes from order & separators
+                end
+
+
+                -- update menu to reflect the change
                 if touchmenu_instance then
                     touchmenu_instance:updateItems()
                 end
 
-                -- actually update Dispatcher binding too
-                local Dispatcher = require("dispatcher")
-                if Dispatcher and Dispatcher.setActionEnabled then
-                    Dispatcher:setActionEnabled(btn.id, value)
-                end
-
-                -- run registered behavior if enabling
-                if value and btn.callback then
+                if btn.callback then
                     btn.callback()
                 end
             end,
-            separator = btn.separator -- this makes the separator line show
+            separator = btn.separator
         })
     end
 
