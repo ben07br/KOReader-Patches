@@ -1,5 +1,5 @@
 # 🏷️ Bookmark Menu Modifications !!
-A KOReader patch that adds the option to filter by highlight colors, or to filter by both highlight colors and highlight style at the same time. 
+A KOReader patch that adds the option to filter by highlight colors, or to filter by both highlight colors and highlight style at the same time. (UPDATED: Now also includes option to bind to gesture. Under "Reader" section by default, or under "Custom Patches" if you download my other [patch](https://github.com/ben07br/KOReader-Patches/tree/main/Custom-Patch-Buttons))
 
 <div align="center"> 
     <img src="images/example1.png" alt = "Front Page Image" width="30%" />

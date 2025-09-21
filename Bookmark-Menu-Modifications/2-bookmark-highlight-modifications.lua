@@ -9,6 +9,7 @@ local ReaderBookmark = require("apps/reader/modules/readerbookmark")
 local ReaderHighlight = require("apps/reader/modules/readerhighlight")
 local RadioButtonWidget = require("ui/widget/radiobuttonwidget")
 local T = require("ffi/util").template
+local Event = require("ui/event")
 
 --filter by edited text
 function ReaderBookmark:filterByEditedText()
@@ -183,3 +184,78 @@ function ReaderBookmark:updateBookmarkList(item_table, item_number)
 
     bm_menu:switchItemTable(title, item_table, item_number, nil, subtitle)
 end
+
+
+----update patch to include dispatch stuff for gestures uses my folder patch if it exists
+function ReaderBookmark:onFilterByHighlightColor() --added this
+    self:onShowBookmark()
+    UIManager:scheduleIn(0.1, function()
+        self:filterByHighlightColor()
+    end)
+end
+
+function ReaderBookmark:onFilterByHighlightStyle() --added this
+    self:onShowBookmark()
+    UIManager:scheduleIn(0.1, function()
+        self:filterByHighlightStyle()
+    end)
+end
+
+function ReaderBookmark:onFilterByHighlightColorAndStyle() --added this
+    self:onShowBookmark()
+    UIManager:scheduleIn(0.1, function()
+        self.ui.highlight:showHighlightColorFilterDialog(function(selected_color)
+            if selected_color then
+                self.ui.highlight:showHighlightStyleDialog(function(selected_drawer)
+                    if selected_drawer then
+                        self:filterByColorAndStyle(selected_drawer, selected_color)
+                    end
+                end)
+            end
+        end)
+    end)
+end
+
+UIManager:scheduleIn(0.1, function()
+    local Dispatcher = require("dispatcher")
+    if not Dispatcher.registerAction then return end
+
+    local useCustomFolder = _G.registerCustomPatchButton ~= nil
+
+    Dispatcher:registerAction("filter_bookmark_color", {
+        category="none",
+        event="FilterByHighlightColor",
+        title=_("Filter by highlight color"),
+        reader = not useCustomFolder, --only add to main menu if not using custom folder
+    })
+
+    Dispatcher:registerAction("filter_bookmark_style", {
+        category="none",
+        event="FilterByHighlightStyle",
+        title=_("Filter by highlight style"),
+        reader = not useCustomFolder,
+    })
+
+    Dispatcher:registerAction("filter_bookmark_color_and_style", {
+        category="none",
+        event="FilterByHighlightColorAndStyle",
+        title=_("Filter by highlight color and style"),
+        separator=true,
+        reader = not useCustomFolder,
+    })
+
+    -- Only add to folder if folder patch exists
+    if _G.registerCustomPatchButton then
+        _G.registerCustomPatchButton("filter_bookmark_color", _("Filter bookmark by color"), function()
+            UIManager:sendEvent(Event:new("FilterByHighlightColor"))
+        end)
+
+        _G.registerCustomPatchButton("filter_bookmark_style", _("Filter bookmark by style"), function()
+            UIManager:sendEvent(Event:new("FilterByHighlightStyle"))
+        end)
+        
+        _G.registerCustomPatchButton("filter_bookmark_color_and_style", _("Filter bookmark by color and style"), function()
+            UIManager:sendEvent(Event:new("FilterByHighlightColorAndStyle"))
+        end, true)
+    end
+end)
