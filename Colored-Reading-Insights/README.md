@@ -1,6 +1,6 @@
 # 🔴 Colored Reading Insights Pop-Up
 
-All credits to [zenixlabs](https://github.com/zenixlabs/koreader-frankenpatches-public/tree/main) and [quanganhdo](https://github.com/quanganhdo/koreader-user-patches) for this amazing reader insights pop-up patch. This version of the patch contains some minor adjustments, primarily adding adjustable color. 
+All credits to [zenixlabs](https://github.com/zenixlabs/koreader-frankenpatches-public/tree/main) and [quanganhdo](https://github.com/quanganhdo/koreader-user-patches) for this amazing reader insights pop-up patch. This version of the patch contains some minor adjustments, primarily adding adjustable color. I'd recommend checking their pages for more information regarding the patch itself. Everything in this version should be essentially the same. 
 
 <div align="center">
     <img src="images/ex1.png" alt = "Example Image1" width = "45%" />
